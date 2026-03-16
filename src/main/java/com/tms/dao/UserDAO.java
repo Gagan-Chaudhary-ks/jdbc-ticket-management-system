@@ -49,4 +49,51 @@ public class UserDAO {
         }
     }
 
+    public List<User> getAllUsers(){
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<User> users = new ArrayList<>();
+
+        String query = "Select * FROM USERS";
+
+        try{
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                User user = new User();
+
+                user.setId(rs.getInt("id"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setRole(rs.getString("role"));
+
+                users.add(user);
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(rs != null){
+                    rs.close();
+                }
+
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return users;
+    }
 }

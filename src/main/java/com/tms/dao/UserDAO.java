@@ -145,4 +145,38 @@ public class UserDAO {
         }
         return user;
     }
+
+    public boolean deleteUser(int id){
+        Connection conn = null ;
+        PreparedStatement ps = null;
+
+        String query = "DELETE FROM users WHERE id = ?";
+        try{
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(query);
+
+            ps.setInt(1,id);
+            int rowsAffected = ps.executeUpdate();
+
+            if(rowsAffected > 0){
+                return true;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            try{
+                if(ps != null){
+                    ps.close();
+                }
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 }

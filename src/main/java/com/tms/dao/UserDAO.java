@@ -96,4 +96,53 @@ public class UserDAO {
         }
         return users;
     }
+
+    public User getUserById(int id){
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        User user = null;
+
+
+        String query = "SELECT * FROM user WHERE user_id = ?";
+        try{
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(query);
+
+            ps.setInt(1,id);
+
+            rs = ps.executeQuery();
+
+            if(rs.next()){
+                user = new User();
+
+                user.setId(rs.getInt("id"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setRole(rs.getString("role"));
+            }
+
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                if(ps != null){
+                    ps.close();
+                }
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return user;
+    }
 }

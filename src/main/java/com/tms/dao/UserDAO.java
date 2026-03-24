@@ -105,7 +105,7 @@ public class UserDAO {
         User user = null;
 
 
-        String query = "SELECT * FROM user WHERE user_id = ?";
+        String query = "SELECT * FROM users WHERE id = ?";
         try{
             conn = DBConnection.getConnection();
             ps = conn.prepareStatement(query);

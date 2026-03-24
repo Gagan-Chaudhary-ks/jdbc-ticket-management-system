@@ -6,6 +6,7 @@ public class Ticket {
     private String description;
     private int createdBy;
     private int assignedTo;
+    private String assignedToName;
     private String status;
     private String priority;
     private String createdAt;
@@ -67,6 +68,14 @@ public class Ticket {
         this.assignedTo = assignedTo;
     }
 
+    public String getAssignedToName(){
+        return assignedToName;
+    }
+
+    public void setAssignedToName(String assignedToName){
+        this.assignedToName = assignedToName;
+    }
+
     public String getStatus(){
         return status;
     }
@@ -107,6 +116,7 @@ public class Ticket {
                 ", description='" + description + '\'' +
                 ", createdBy=" + createdBy +
                 ", assignedTo=" + assignedTo +
+                ", assignedToName='" + assignedToName + '\''+
                 ", status='" + status + '\'' +
                 ", priority='" + priority + '\'' +
                 ", createdAt='" + createdAt + '\'' +

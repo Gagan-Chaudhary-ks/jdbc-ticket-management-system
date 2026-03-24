@@ -5,7 +5,10 @@ import com.tms.util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TicketDAO {
     public void createTicket(Ticket ticket){
@@ -42,5 +45,54 @@ public class TicketDAO {
                 e.printStackTrace();
             }
         }
+    }
+
+    public List <Ticket> getAllTickets(){
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM tickets";
+
+        List<Ticket> tickets = new ArrayList<>();
+        try{
+
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while(rs.next()) {
+                Ticket ticket = new Ticket();
+
+                ticket.setTicketId(rs.getInt("ticket_id"));
+                ticket.setTitle(rs.getString("title"));
+                ticket.setDescription(rs.getString("description"));
+                ticket.setCreatedBy(rs.getInt("created_by"));
+                ticket.setAssignedTo(rs.getInt("assigned_to"));
+                ticket.setStatus(rs.getString("status"));
+                ticket.setPriority(rs.getString("priority"));
+
+                tickets.add(ticket);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                if(ps != null){
+                    ps.close();
+                }
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return tickets;
     }
 }

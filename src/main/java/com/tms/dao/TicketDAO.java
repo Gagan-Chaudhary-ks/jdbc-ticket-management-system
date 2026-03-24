@@ -95,4 +95,55 @@ public class TicketDAO {
         }
         return tickets;
     }
+
+    public Ticket getTicketById(int id){
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Ticket ticket = null;
+
+        String query = "SELECT * FROM tickets WHERE ticket_id = ?";
+
+        try{
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(query);
+
+            ps.setInt(1,id);
+
+            rs = ps.executeQuery();
+
+            if(rs.next()){
+                ticket = new Ticket();
+
+                ticket.setTicketId(rs.getInt("ticket_id"));
+                ticket.setTitle(rs.getString("title"));
+                ticket.setDescription(rs.getString("description"));
+                ticket.setCreatedBy(rs.getInt("created_by"));
+                ticket.setAssignedTo(rs.getInt("assigned_to"));
+                ticket.setStatus(rs.getString("status"));
+                ticket.setPriority(rs.getString("priority"));
+
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                if(ps != null){
+                    ps.close();
+                }
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return ticket;
+    }
 }

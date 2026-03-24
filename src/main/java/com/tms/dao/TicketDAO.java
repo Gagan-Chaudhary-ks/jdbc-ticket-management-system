@@ -146,4 +146,38 @@ public class TicketDAO {
         }
         return ticket;
     }
+
+    public boolean deleteTicket(int id){
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        String query = "DELETE FROM tickets WHERE ticket_id = ?";
+
+        int rowsAffected = 0;
+
+        try{
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(query);
+
+            ps.setInt(1, id);
+
+            rowsAffected = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try{
+                if(ps != null){
+                    ps.close();
+                }
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return (rowsAffected > 0);
+    }
 }

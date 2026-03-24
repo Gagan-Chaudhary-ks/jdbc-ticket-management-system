@@ -180,4 +180,39 @@ public class TicketDAO {
         }
         return (rowsAffected > 0);
     }
+
+    public boolean updateTicketStatus(int id, String status){
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        int rowAffected = 0;
+
+        String query = "UPDATE tickets SET status = ? WHERE ticket_id = ?";
+
+        try{
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(query);
+
+            ps.setString(1,status);
+            ps.setInt(2, id);
+
+            rowAffected = ps.executeUpdate();
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            try{
+                if(ps != null){
+                    ps.close();
+                }
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return (rowAffected > 0);
+    }
 }

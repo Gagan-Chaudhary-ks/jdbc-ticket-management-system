@@ -53,7 +53,7 @@ public class TicketDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String query = "SELECT t.*, u.name FROM tickets t LEFT JOIN users u ON t.assigned_to = u.id";
+        String query = "SELECT t.*, u.name FROM tickets t LEFT JOIN users u ON t.assigned_to = u.user_id";
 
         List<Ticket> tickets = new ArrayList<>();
         try{

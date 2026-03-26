@@ -105,7 +105,7 @@ public class UserDAO {
         User user = null;
 
 
-        String query = "SELECT * FROM users WHERE id = ?";
+        String query = "SELECT * FROM users WHERE user_id = ?";
         try{
             conn = DBConnection.getConnection();
             ps = conn.prepareStatement(query);
@@ -150,7 +150,7 @@ public class UserDAO {
         Connection conn = null ;
         PreparedStatement ps = null;
 
-        String query = "DELETE FROM users WHERE id = ?";
+        String query = "DELETE FROM users WHERE user_id = ?";
         try{
             conn = DBConnection.getConnection();
             ps = conn.prepareStatement(query);

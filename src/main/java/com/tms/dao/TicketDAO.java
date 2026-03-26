@@ -104,7 +104,7 @@ public class TicketDAO {
 
         Ticket ticket = null;
 
-        String query = "SELECT * FROM tickets WHERE ticket_id = ?";
+        String query = "SELECT t.*, u.name FROM tickets t LEFT JOIN users u ON t.assigned_to = u.id WHERE t.ticket_id = ?";
 
         try{
             conn = DBConnection.getConnection();
@@ -122,6 +122,7 @@ public class TicketDAO {
                 ticket.setDescription(rs.getString("description"));
                 ticket.setCreatedBy(rs.getInt("created_by"));
                 ticket.setAssignedTo(rs.getInt("assigned_to"));
+                ticket.setAssignedToName(rs.getString("name"));
                 ticket.setStatus(rs.getString("status"));
                 ticket.setPriority(rs.getString("priority"));
 
